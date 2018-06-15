@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width:600px;
+            height: 450px;
+            border: 1px solid slateblue;
+            position: relative;
+        }
+        .box img{
+            width: 600px;
+            height: 450px;
+        }
+        .box .tag{
+            width: 200px;
+            height: 200px;
+            background: rgba(0,0,0,.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .mix{
+            width: 300px;
+            height: 300px;
+           overflow: hidden;
+           position: relative;
+        }
+        .imgs{
+            position: absolute;
+            top: 0;
+            left:0;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="456.jpg" alt="">
+        <div class="tag"></div>
+    </div>
+    <div class="mix">
+        <img class="imgs" src="456.jpg" alt="">
+    </div>
+    <script>
+    window.onload = function(){
+        var tag = document.querySelector('.tag');
+        var box = document.querySelector('.box');
+        var nav = document.querySelector('.nav');
+        var mix = document.querySelector('.mix');
+        var imgs = document.querySelector('.imgs');
+        //获取元素到可视区的宽高
+        function getRect(el){
+            return el.getBoundingClientRect()
+        }
+        var minix = 0;
+        var miniy = 0;
+        var maxx = box.clientWidth - tag.clientWidth;
+        var maxy = box.clientHeight - tag.clientHeight;
+        
+        var navMaxY = imgs.scrollHeight - mix.clientHeight;
+        var navMaxX = imgs.scrollWidth - mix.clientWidth;
+         
+        
+        box.onmousemove = function(e){
+            var t = getRect(box);
+            var l = e.clientX - t.left - tag.offsetWidth/2;
+            var p = e.clientY - t.top - tag.offsetHeight/2;
+            if(l < minix) l = minix;
+            if(p < miniy) p = miniy;
+            if(l > maxx) l = maxx;
+            if(p > maxy) p = maxy;
+
+            tag.style.top = p + 'px';
+            tag.style.left = l + 'px'; 
+
+            console.log(navMaxY)
+           imgs.style.top = -p/maxy *navMaxY + 'px';
+           imgs.style.left = -l/maxx *navMaxX + 'px';
+        }
+    }
+    </script>
+</body>
+</html>
